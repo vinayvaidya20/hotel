@@ -1,14 +1,5 @@
 package com.priceline.gcp.gcpdemo.controller;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,12 +28,14 @@ public class HotelController {
 		PreparedStatement statement = GcpDemoApplication.getConnection().prepareStatement("insert into Hotel values(?,?,?,?,?)");
 		
 		statement.setLong(1,hotel.getId());//1 specifies the first parameter in the query  
-		statement.setString(2,hotel.getName()); 
+		statement.setString(2,hotel.getHotelName()); 
 		statement.setString(3,hotel.getDescription()); 
-		statement.setString(4,hotel.getMinRate()); 
+		statement.setString(4,hotel.getHotelMinRate()); 
 		statement.setString(5,hotel.getHotelCity()); 
 		  
 		boolean isExecuted=statement.execute();  
+		
+		
 		if(isExecuted)
 		{
 			hotelResponse.setCode("201");
@@ -54,6 +49,25 @@ public class HotelController {
 			 httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		ResponseEntity<HotelResponse> responseEntity = new ResponseEntity<>(hotelResponse, httpStatus);
+		return responseEntity;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
+	public ResponseEntity<HotelFetchResponse> getReminder(@PathVariable int id) throws SQLException {
+		HotelFetchResponse hotelFetchResponse = new HotelFetchResponse();
+		
+		String selectSQL = "SELECT * FROM Hotel WHERE HotelId = ?";
+		PreparedStatement preparedStatement = GcpDemoApplication.getConnection().prepareStatement(selectSQL);
+		preparedStatement.setInt(1, id);
+		ResultSet rs = preparedStatement.executeQuery(selectSQL);
+		while (rs.next()) {
+			hotelFetchResponse.setId(rs.getInt("HotelId"));
+			hotelFetchResponse.setDescription(rs.getString("Description"));
+			hotelFetchResponse.setHotelCity(rs.getString("City"));
+			hotelFetchResponse.setHotelMinRate("MinRate");
+			hotelFetchResponse.setHotelName("HotelName");
+		}
+		ResponseEntity<HotelFetchResponse> responseEntity = new ResponseEntity<>(hotelFetchResponse,HttpStatus.OK);
 		return responseEntity;
 	}
 
