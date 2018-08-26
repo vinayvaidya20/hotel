@@ -23,59 +23,39 @@ public class HotelRequest {
 	/** The status. */
 	private String hotelMinRate;
 	private String hotelCity;
-	
-
-	public String getHotelCity() {
-		return hotelCity;
-	}
-
-	public void setHotelCity(String hotelCity) {
-		this.hotelCity = hotelCity;
-	}
-
-
-	
-	/**
-	 * Gets the description.
-	 *
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-	
-	/**
-	 * Sets the description.
-	 *
-	 * @param description the new description
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public int getId() {
 		return Id;
 	}
-
 	public void setId(int id) {
 		Id = id;
 	}
-
 	public String getHotelName() {
 		return hotelName;
 	}
-
 	public void setHotelName(String hotelName) {
 		this.hotelName = hotelName;
 	}
-
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public String getHotelMinRate() {
 		return hotelMinRate;
 	}
-
 	public void setHotelMinRate(String hotelMinRate) {
 		this.hotelMinRate = hotelMinRate;
 	}
+	public String getHotelCity() {
+		return hotelCity;
+	}
+	public void setHotelCity(String hotelCity) {
+		this.hotelCity = hotelCity;
+	}
+	
+
+
 	
 
 }
