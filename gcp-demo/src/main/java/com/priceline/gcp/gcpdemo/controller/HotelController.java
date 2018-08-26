@@ -51,13 +51,13 @@ public class HotelController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
-	public ResponseEntity<HotelFetchResponse> getReminder(@PathVariable int id) throws SQLException {
+	public ResponseEntity<HotelFetchResponse> getHotel(@PathVariable int id) throws SQLException {
 		HotelFetchResponse hotelFetchResponse = new HotelFetchResponse();
 		
 		String selectSQL = "SELECT * FROM Hotel WHERE HotelId = ?";
 		PreparedStatement preparedStatement = GcpDemoApplication.getConnection().prepareStatement(selectSQL);
 		preparedStatement.setInt(1, id);
-		ResultSet rs = preparedStatement.executeQuery(selectSQL);
+		ResultSet rs = preparedStatement.executeQuery();
 		while (rs.next()) {
 			hotelFetchResponse.setId(rs.getInt("HotelId"));
 			hotelFetchResponse.setDescription(rs.getString("Description"));
