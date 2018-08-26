@@ -62,8 +62,8 @@ public class HotelController {
 			hotelFetchResponse.setId(rs.getInt("HotelId"));
 			hotelFetchResponse.setDescription(rs.getString("Description"));
 			hotelFetchResponse.setHotelCity(rs.getString("City"));
-			hotelFetchResponse.setHotelMinRate("MinRate");
-			hotelFetchResponse.setHotelName("HotelName");
+			hotelFetchResponse.setHotelMinRate(rs.getString("MinRate"));
+			hotelFetchResponse.setHotelName(rs.getString("HotelName"));
 		}
 		ResponseEntity<HotelFetchResponse> responseEntity = new ResponseEntity<>(hotelFetchResponse,HttpStatus.OK);
 		return responseEntity;
