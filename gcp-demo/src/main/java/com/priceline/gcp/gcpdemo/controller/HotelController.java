@@ -27,7 +27,7 @@ public class HotelController {
 		HttpStatus httpStatus = HttpStatus.OK;
 		PreparedStatement statement = GcpDemoApplication.getConnection().prepareStatement("insert into Hotel values(?,?,?,?,?)");
 		
-		statement.setLong(1,hotel.getId());//1 specifies the first parameter in the query  
+		statement.setInt(1,hotel.getId());//1 specifies the first parameter in the query  
 		statement.setString(2,hotel.getHotelName()); 
 		statement.setString(3,hotel.getDescription()); 
 		statement.setString(4,hotel.getHotelMinRate()); 
