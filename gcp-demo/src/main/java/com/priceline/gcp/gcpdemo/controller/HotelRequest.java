@@ -12,7 +12,7 @@ public class HotelRequest {
 
 
 	/** The Id. */
-	private int Id;
+	private int hotelId;
 	
 	/** The name. */
 	private String hotelName;
@@ -23,11 +23,13 @@ public class HotelRequest {
 	/** The status. */
 	private String hotelMinRate;
 	private String hotelCity;
-	public int getId() {
-		return Id;
+
+
+	public int getHotelId() {
+		return hotelId;
 	}
-	public void setId(int id) {
-		Id = id;
+	public void setHotelId(int hotelId) {
+		this.hotelId = hotelId;
 	}
 	public String getHotelName() {
 		return hotelName;
