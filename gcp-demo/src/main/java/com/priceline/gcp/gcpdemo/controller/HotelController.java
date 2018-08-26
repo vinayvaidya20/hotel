@@ -22,32 +22,30 @@ import com.priceline.gcp.gcpdemo.GcpDemoApplication;
 public class HotelController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/")
-	public ResponseEntity<HotelResponse> addHotel(@RequestBody HotelRequest hotel) throws SQLException {
+	public ResponseEntity<HotelResponse> addHotel(@RequestBody HotelRequest hotel) {
 		HotelResponse hotelResponse =new HotelResponse();
 		HttpStatus httpStatus = HttpStatus.OK;
-		PreparedStatement statement = GcpDemoApplication.getConnection().prepareStatement("insert into Hotel values(?,?,?,?,?)");
-		
-		statement.setInt(1,hotel.getHotelId());//1 specifies the first parameter in the query  
-		statement.setString(2,hotel.getHotelName()); 
-		statement.setString(3,hotel.getDescription()); 
-		statement.setString(4,hotel.getHotelMinRate()); 
-		statement.setString(5,hotel.getHotelCity()); 
-		  
-		boolean isExecuted=statement.execute();  
-		
-		
-		if(isExecuted)
-		{
+		PreparedStatement statement;
+		try {
+			statement = GcpDemoApplication.getConnection().prepareStatement("insert into Hotel values(?,?,?,?,?)");
+			statement.setInt(1,hotel.getHotelId());//1 specifies the first parameter in the query  
+			statement.setString(2,hotel.getHotelName()); 
+			statement.setString(3,hotel.getDescription()); 
+			statement.setString(4,hotel.getHotelMinRate()); 
+			statement.setString(5,hotel.getHotelCity()); 
+			statement.execute(); 
 			hotelResponse.setCode("201");
 			hotelResponse.setMessage("Hotel Information Added");
-			hotelResponse.setType("CREATED");;
-		}
-		else {
+			hotelResponse.setType("CREATED");
+		} catch (SQLException e) {
 			hotelResponse.setCode("500");
 			hotelResponse.setMessage("Internal Error");
 			hotelResponse.setType("ERROR");
 			 httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	
 		ResponseEntity<HotelResponse> responseEntity = new ResponseEntity<>(hotelResponse, httpStatus);
 		return responseEntity;
 	}
@@ -71,59 +69,6 @@ public class HotelController {
 		return responseEntity;
 	}
 
-	
-	@RequestMapping(method = RequestMethod.GET, value = "/{name}")
-	public String getGreeting(@PathVariable String name) throws SQLException {
-		String lastNAME= "";
-		  String instanceConnectionName = "gcp-example-demo:us-central1:demo-sql-instance";
-
-	    // TODO: fill this in
-	    // The database from which to list tables.
-	    String databaseName = "TestDatabase";
-
-	    String username = "proxyuser";
-
-	    // TODO: fill this in
-	    // This is the password that was set via the Cloud Console or empty if never set
-	    // (not recommended).
-	    String password = "password";
-
-	    if (instanceConnectionName.equals("<insert_connection_name>")) {
-	      System.err.println("Please update the sample to specify the instance connection name.");
-	      System.exit(1);
-	    }
-
-	    if (password.equals("<insert_password>")) {
-	      System.err.println("Please update the sample to specify the mysql password.");
-	      System.exit(1);
-	    }
-
-	    //[START doc-example]
-	    
-	    String jdbcUrl = "jdbc:mysql://127.0.0.1:3306/TestDatabase?useSSL=false";
-		Connection connection1 = DriverManager.getConnection(jdbcUrl, username, password);
-	   //[END doc-example]
-
-	    try (Statement statement = connection1.createStatement()) {
-	      ResultSet resultSet = statement.executeQuery("SHOW TABLES");
-	      while (resultSet.next()) {
-	        System.out.println(resultSet.getString(1));
-	      }
-	    }
-	  
-		
-		
-	    try (Statement statement = connection1.createStatement()) {
-		      ResultSet resultSet = statement.executeQuery("select * from Persons");
-		      while (resultSet.next()) {
-		        System.out.println(resultSet.getInt(1));
-		        lastNAME = resultSet.getString(2);
-		        System.out.println(resultSet.getString(2));
-		        System.out.println(resultSet.getString(3));
-		      }
-		    }
-		return "Hello, "+name+" "+lastNAME;
-	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/")
 	public String getResult() throws SQLException {
