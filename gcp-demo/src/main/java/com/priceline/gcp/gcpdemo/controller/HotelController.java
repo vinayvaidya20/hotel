@@ -73,7 +73,7 @@ public class HotelController {
 	@RequestMapping(method = RequestMethod.GET, value = "/")
 	public String getResult() throws SQLException {
 	
-		return "SUCCESS-Rolling Update Done";
+		return "SUCCESS";
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/con")
